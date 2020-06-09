@@ -15,8 +15,9 @@ import java.time.LocalDateTime;
 @Component
 public class Producer {
 
-    private final KafkaTemplate<String, String> kafkaTemplate;
     public static final String TOPIC_CUSTOMER = "input.customer";
+
+    //TODO: Inject KafkaTemplate
 
     private final long secondsInAMonth;
     private final LocalDateTime now;
@@ -24,8 +25,7 @@ public class Producer {
     private final static String STATUS = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.";
     private final ObjectMapper om;
 
-    public Producer(KafkaTemplate<String, String> kafkaTemplate, ObjectMapper om) {
-        this.kafkaTemplate = kafkaTemplate;
+    public Producer(ObjectMapper om) {
         this.om = om;
 
         now = LocalDateTime.now();
@@ -46,7 +46,9 @@ public class Producer {
                 Customer randomCustomer = createRandomCustomer();
                 String message = om.writeValueAsString(randomCustomer);
                 log.info("create record on topic {}: {}", TOPIC_CUSTOMER, message);
-                kafkaTemplate.send(TOPIC_CUSTOMER, randomCustomer.getCustomerId(), message);
+
+                //TODO: Send Message with Kafka-Template
+
             }
         } catch (JsonProcessingException ex) {
             throw new RuntimeException(ex);

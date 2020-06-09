@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class Consumer {
 
-    @KafkaListener(topics = Producer.TOPIC_CUSTOMER)
+    //TODO: Configure KafkaListener
     public void foo(String key, @Payload String value) {
         log.info("Received: {} - {}", key, value);
     }
